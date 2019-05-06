@@ -1,0 +1,94 @@
+//
+//  JDRNPrefixHeader.pch
+//  v2_jdrn
+//
+//  Created by 赵鹏飞 on 2018/12/11.
+//  Copyright © 2018 Facebook. All rights reserved.
+//
+
+#ifndef JDRNPrefixHeader_pch
+#define JDRNPrefixHeader_pch
+
+#import <UIKit/UIKit.h>
+#import <SVProgressHUD.h>
+#import <MJExtension/MJExtension.h>
+#import "AppDelegate.h"
+#import <JSONModel.h>
+#import "NSString+Extension.h"
+#import <MobileCoreServices/MobileCoreServices.h>
+#import <Masonry/Masonry.h>
+
+
+//微信登录AppId
+static NSString *const ConstantStr_WeiXinLogin_AppKey = @"wx8c3b3fb024cf2206";
+#define NTESAPPKEY @"453d4d6571641a9d1286abd84eea31ee"
+#define USHARE_JaadeeRn_APPKEY @"58b17d3b76661337b2000868"
+
+#define SafeAreaBottomHeight ((SCREEN_H >= 812.0) && [[UIDevice currentDevice].model isEqualToString:@"iPhone"]  ? 30 : 0)
+
+#define RGB(R, G, B)    [UIColor colorWithRed:R/255.0 green:G/255.0 blue:B/255.0 alpha:1.0]
+#define RGBA(R, G, B, A)    [UIColor colorWithRed:R/255.0 green:G/255.0 blue:B/255.0 alpha:A]
+#pragma mark 播放视频通知
+#define JDRNVEDIOPLAY @"JDRNVEDIOPLAYANDNEWWILLYZHAO"
+
+#define JDRNVIDEOSELECTED @"JDRNVEDIOPLAYANDNEWWILLYZHAOSELECTEDVIDEOFROMLIRBRIAY"
+
+#define JDRNSUSPENDVIEWPLAYACTION @"XIEHEPINGCHENJUNJIEZHUANGTAIBUDUIERMAERMADEPLAY"
+#define JDRNSUSPENDVIEWSTOPACTION @"XIEHEPINGCHENJUNJIEZHUANGTAIBUDUIERMAERMADESTOP"
+#pragma mark 系统字体
+#define YBKSystemFont(size) [UIFont systemFontOfSize:size]
+#pragma mark 系统加粗字体
+#define YBKSystemBoldFont(size) [UIFont boldSystemFontOfSize:size]
+#pragma mark 字体大小s
+#define YHKFONTSIZE_1 10.0f
+#define YHKFONTSIZE_2 12.0f
+#define YHKFONTSIZE_3 14.0f
+#define YHKFONTSIZE_4 16.0f
+#define YHKFONTSIZE_5 18.0f
+#define YHKFONTSIZE_6 20.0f
+#define YHKFONTSIZE_7 22.0f
+#define YHKFONTSIZE_8 24.0f
+#pragma mark 屏幕大小
+#define YBKWinFrame [[UIScreen mainScreen] bounds]
+#define YBKAppFrame [[UIScreen mainScreen] applicationFrame]
+#define SCREEN_W [UIScreen mainScreen].bounds.size.width
+#define SCREEN_H [UIScreen mainScreen].bounds.size.height
+#pragma mark 适配320，375，414 宽度的按照比列放大
+#define YBKAdaptiveW(x) [UIScreen mainScreen].bounds.size.width*x/375
+#pragma mark   主要单例
+#define YBKUserDefaults         [NSUserDefaults standardUserDefaults]
+#define YBKNotificationCenter   [NSNotificationCenter defaultCenter]
+#define YBKShareApplication    [UIApplication sharedApplication]
+
+#pragma mark UIWindow
+#define YBKKeyWindow  [YBKShareApplication keyWindow]
+
+#pragma mark Application delegate
+#define YBKShareAppDelegate ((AppDelegate *)YBKShareApplication.delegate)
+#pragma mark 字体颜色RGB函数
+#define YBKRGBCOLOR(r,g,b,a) [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a]
+#define YBKHEXCOLOR(colorV)        [UIColor colorWithHexColorString:colorV]
+#define YBKHEXCOLORAlpha(colorV,a) [UIColor colorWithHexColorString:colorV alpha:a]
+#define YBKRAMDOMCOLOR [UIColor colorWithRed:arc4random_uniform(255)/255.0f green:arc4random_uniform(255)/255.0f blue:arc4random_uniform(255)/255.0f alpha:1.0f]
+#pragma mark 是否是7.0以上系统
+#define IOS7 (([[YHUIDevice systemVersion] floatValue]>=7)?1:0)
+
+#pragma mark 是否是8.0以上系统
+#define IOS8 (([[YHUIDevice systemVersion] floatValue]>=8)?1:0)
+#define IOS9 ((([[YHUIDevice systemVersion] floatValue]<=10) && ([[YHUIDevice systemVersion] floatValue]>=9))?1:0)
+#pragma mark 是否是10.0以上系统
+#define IOS10 (([[YHUIDevice systemVersion] floatValue]>=10)?1:0)
+#pragma mark 获取系统信息
+#define YHUIDevice [UIDevice currentDevice]
+#pragma mark  系统版本
+#define YHSysVersion [YHUIDevice systemVersion]
+#pragma mark 系统的名字
+#define YHSysName [YHUIDevice systemName]
+#pragma mark 系统model
+#define YHSysModel [YHUIDevice model]
+#pragma mark 系统localizedModel
+#define YHSysLocalizedModel [YHUIDevice localizedModel]
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* JDRNPrefixHeader_pch */

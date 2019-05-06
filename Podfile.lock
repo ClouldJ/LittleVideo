@@ -1,0 +1,28 @@
+PODS:
+  - JSONModel (1.8.0)
+  - Masonry (1.1.0)
+  - MJExtension (3.0.15.1)
+  - SVProgressHUD (2.2.5)
+
+DEPENDENCIES:
+  - JSONModel
+  - Masonry
+  - MJExtension
+  - SVProgressHUD
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - JSONModel
+    - Masonry
+    - MJExtension
+    - SVProgressHUD
+
+SPEC CHECKSUMS:
+  JSONModel: 02ab723958366a3fd27da57ea2af2113658762e9
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  MJExtension: 19bc33ce2eee2d319760f5622562cf581a6ff756
+  SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
+
+PODFILE CHECKSUM: 088a84e0d85e358061f5c603bc35322de4b06b3d
+
+COCOAPODS: 1.6.0.beta.2
