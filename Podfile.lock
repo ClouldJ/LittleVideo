@@ -1,11 +1,36 @@
 PODS:
   - JSONModel (1.8.0)
+  - libwebp (1.0.2):
+    - libwebp/core (= 1.0.2)
+    - libwebp/dec (= 1.0.2)
+    - libwebp/demux (= 1.0.2)
+    - libwebp/dsp (= 1.0.2)
+    - libwebp/enc (= 1.0.2)
+    - libwebp/mux (= 1.0.2)
+    - libwebp/utils (= 1.0.2)
+    - libwebp/webp (= 1.0.2)
+  - libwebp/core (1.0.2):
+    - libwebp/webp
+  - libwebp/dec (1.0.2):
+    - libwebp/core
+  - libwebp/demux (1.0.2):
+    - libwebp/core
+  - libwebp/dsp (1.0.2):
+    - libwebp/core
+  - libwebp/enc (1.0.2):
+    - libwebp/core
+  - libwebp/mux (1.0.2):
+    - libwebp/core
+  - libwebp/utils (1.0.2):
+    - libwebp/core
+  - libwebp/webp (1.0.2)
   - Masonry (1.1.0)
   - MJExtension (3.0.15.1)
   - SVProgressHUD (2.2.5)
 
 DEPENDENCIES:
   - JSONModel
+  - libwebp
   - Masonry
   - MJExtension
   - SVProgressHUD
@@ -13,16 +38,18 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - JSONModel
+    - libwebp
     - Masonry
     - MJExtension
     - SVProgressHUD
 
 SPEC CHECKSUMS:
   JSONModel: 02ab723958366a3fd27da57ea2af2113658762e9
+  libwebp: b068a3bd7c45f7460f6715be7bed1a18fd5d6b48
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJExtension: 19bc33ce2eee2d319760f5622562cf581a6ff756
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: 088a84e0d85e358061f5c603bc35322de4b06b3d
+PODFILE CHECKSUM: ea6426d02f71d1fd53ccb9f666d5c4a701261082
 
 COCOAPODS: 1.6.0.beta.2

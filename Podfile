@@ -10,6 +10,8 @@ target 'WZ_LittleVideo' do
   pod 'MJExtension'
   pod 'JSONModel'
   pod 'Masonry'
+  pod 'libwebp'
+#  pod 'SDWebImage'
   target 'WZ_LittleVideoTests' do
     inherit! :search_paths
     # Pods for testing

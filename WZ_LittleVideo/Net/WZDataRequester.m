@@ -149,17 +149,17 @@ Class object_getClass(id object);
 #pragma  mark - POST
 - (void)sendRequestUsePost:(NSString*)urlString withParams:(NSDictionary*)param callBack:(void(^)(NSDictionary *response))responseCallBack {
   
-  NSMutableString *paramString = [[NSMutableString alloc] init];
-  for (NSString *key in param) {
-    [paramString appendFormat:@"%@=%@&",key,[param objectForKey:key]];
-  }
-  
-  
-  NSString *newParm = nil;
-  if([paramString hasSuffix:@"&"]){
-    NSRange rang = NSMakeRange(0, paramString.length-1);
-    newParm = [paramString substringWithRange:rang];
-  }
+//  NSMutableString *paramString = [[NSMutableString alloc] init];
+//  for (NSString *key in param) {
+//    [paramString appendFormat:@"%@=%@&",key,[param objectForKey:key]];
+//  }
+//  
+//
+//  NSString *newParm = nil;
+//  if([paramString hasSuffix:@"&"]){
+//    NSRange rang = NSMakeRange(0, paramString.length-1);
+//    newParm = [paramString substringWithRange:rang];
+//  }
     
     NSString *ss = [self convertToJsonData:param];
   

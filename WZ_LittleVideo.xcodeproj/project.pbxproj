@@ -36,6 +36,9 @@
 		D071F36B227EDC8700D90E36 /* AVPlayerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D071F368227EDC8700D90E36 /* AVPlayerManager.m */; };
 		D071F3B6227EDDF500D90E36 /* WebCacheHelpler.m in Sources */ = {isa = PBXBuildFile; fileRef = D071F3B5227EDDF500D90E36 /* WebCacheHelpler.m */; };
 		D071F3D3227FCBB700D90E36 /* UIViewController+Hidden.m in Sources */ = {isa = PBXBuildFile; fileRef = D071F3D2227FCBB700D90E36 /* UIViewController+Hidden.m */; };
+		D071F3D622800BAF00D90E36 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = D071F3D422800BAF00D90E36 /* UIImageView+WebCache.m */; };
+		D071F3DE228013D900D90E36 /* WebPImage.m in Sources */ = {isa = PBXBuildFile; fileRef = D071F3DA228013D900D90E36 /* WebPImage.m */; };
+		D071F3DF228013D900D90E36 /* WebPQueueManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D071F3DD228013D900D90E36 /* WebPQueueManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -122,6 +125,12 @@
 		D071F3B7227EDECA00D90E36 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		D071F3D1227FCBB700D90E36 /* UIViewController+Hidden.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Hidden.h"; sourceTree = "<group>"; };
 		D071F3D2227FCBB700D90E36 /* UIViewController+Hidden.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Hidden.m"; sourceTree = "<group>"; };
+		D071F3D422800BAF00D90E36 /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
+		D071F3D522800BAF00D90E36 /* UIImageView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+WebCache.h"; sourceTree = "<group>"; };
+		D071F3DA228013D900D90E36 /* WebPImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebPImage.m; sourceTree = "<group>"; };
+		D071F3DB228013D900D90E36 /* WebPQueueManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebPQueueManager.h; sourceTree = "<group>"; };
+		D071F3DC228013D900D90E36 /* WebPImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebPImage.h; sourceTree = "<group>"; };
+		D071F3DD228013D900D90E36 /* WebPQueueManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebPQueueManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,6 +218,12 @@
 				D071F3D2227FCBB700D90E36 /* UIViewController+Hidden.m */,
 				D071F3B4227EDDF500D90E36 /* WebCacheHelpler.h */,
 				D071F3B5227EDDF500D90E36 /* WebCacheHelpler.m */,
+				D071F3DC228013D900D90E36 /* WebPImage.h */,
+				D071F3DA228013D900D90E36 /* WebPImage.m */,
+				D071F3DB228013D900D90E36 /* WebPQueueManager.h */,
+				D071F3DD228013D900D90E36 /* WebPQueueManager.m */,
+				D071F3D522800BAF00D90E36 /* UIImageView+WebCache.h */,
+				D071F3D422800BAF00D90E36 /* UIImageView+WebCache.m */,
 				D071F347227ED6C900D90E36 /* VideoCell.h */,
 				D071F348227ED6C900D90E36 /* VideoCell.m */,
 				D071F312227ECAB100D90E36 /* RootViewController.h */,
@@ -530,6 +545,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D071F3DF228013D900D90E36 /* WebPQueueManager.m in Sources */,
 				D071F2E8227EB58000D90E36 /* WZDataDownloadManager.m in Sources */,
 				D071F349227ED6C900D90E36 /* VideoCell.m in Sources */,
 				D071F2ED227EB79E00D90E36 /* Presenter_ViewController.m in Sources */,
@@ -541,9 +557,11 @@
 				D071F317227ECCB300D90E36 /* PlayViewController.m in Sources */,
 				D071F29E227EB2FE00D90E36 /* main.m in Sources */,
 				D071F36B227EDC8700D90E36 /* AVPlayerManager.m in Sources */,
+				D071F3D622800BAF00D90E36 /* UIImageView+WebCache.m in Sources */,
 				D071F3B6227EDDF500D90E36 /* WebCacheHelpler.m in Sources */,
 				D071F2E7227EB58000D90E36 /* AFNetworkReachabilityManager.m in Sources */,
 				D071F2E6227EB58000D90E36 /* WZDataRequester.m in Sources */,
+				D071F3DE228013D900D90E36 /* WebPImage.m in Sources */,
 				D071F314227ECAB100D90E36 /* RootViewController.m in Sources */,
 				D071F36A227EDC8700D90E36 /* AVPlayerView.m in Sources */,
 				D071F340227ED49300D90E36 /* NSNotification+Extension.m in Sources */,
