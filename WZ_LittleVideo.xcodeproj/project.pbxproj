@@ -10,6 +10,8 @@
 		281C9A3AA09CA1AFC5D5B075 /* libPods-WZ_LittleVideoUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F886645629D9777B2CF299 /* libPods-WZ_LittleVideoUITests.a */; };
 		59D7552F7ACBA00AF45382FE /* libPods-WZ_LittleVideoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7274F862DF987AD4794F8A0C /* libPods-WZ_LittleVideoTests.a */; };
 		8F95C29DEC8AAD5EC9641D69 /* libPods-WZ_LittleVideo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A39592BA58A9933C3DE3A40 /* libPods-WZ_LittleVideo.a */; };
+		D05A82F82282819300BB01EB /* WZPlayerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D05A82F72282819300BB01EB /* WZPlayerManager.m */; };
+		D05A82FB2282820300BB01EB /* WZ_Player.m in Sources */ = {isa = PBXBuildFile; fileRef = D05A82FA2282820300BB01EB /* WZ_Player.m */; };
 		D071F290227EB2FC00D90E36 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D071F28F227EB2FC00D90E36 /* AppDelegate.m */; };
 		D071F293227EB2FC00D90E36 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D071F292227EB2FC00D90E36 /* ViewController.m */; };
 		D071F296227EB2FC00D90E36 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D071F294227EB2FC00D90E36 /* Main.storyboard */; };
@@ -70,6 +72,10 @@
 		96F886645629D9777B2CF299 /* libPods-WZ_LittleVideoUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WZ_LittleVideoUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AA209AD6FFDE43D2FAF2182 /* Pods-WZ_LittleVideoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WZ_LittleVideoTests.debug.xcconfig"; path = "Target Support Files/Pods-WZ_LittleVideoTests/Pods-WZ_LittleVideoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A83C72CCAB25CAA5DF214794 /* Pods-WZ_LittleVideoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WZ_LittleVideoUITests.debug.xcconfig"; path = "Target Support Files/Pods-WZ_LittleVideoUITests/Pods-WZ_LittleVideoUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		D05A82F62282819300BB01EB /* WZPlayerManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZPlayerManager.h; sourceTree = "<group>"; };
+		D05A82F72282819300BB01EB /* WZPlayerManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZPlayerManager.m; sourceTree = "<group>"; };
+		D05A82F92282820300BB01EB /* WZ_Player.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZ_Player.h; sourceTree = "<group>"; };
+		D05A82FA2282820300BB01EB /* WZ_Player.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZ_Player.m; sourceTree = "<group>"; };
 		D071F28B227EB2FC00D90E36 /* WZ_LittleVideo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WZ_LittleVideo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D071F28E227EB2FC00D90E36 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		D071F28F227EB2FC00D90E36 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -236,6 +242,10 @@
 				D0F8082E2280443F00CC13EE /* VideoDownloadManager.m */,
 				D0F80848228123E400CC13EE /* WZPlayer.h */,
 				D0F80849228123E400CC13EE /* WZPlayer.m */,
+				D05A82F92282820300BB01EB /* WZ_Player.h */,
+				D05A82FA2282820300BB01EB /* WZ_Player.m */,
+				D05A82F62282819300BB01EB /* WZPlayerManager.h */,
+				D05A82F72282819300BB01EB /* WZPlayerManager.m */,
 				D071F312227ECAB100D90E36 /* RootViewController.h */,
 				D071F313227ECAB100D90E36 /* RootViewController.m */,
 				D071F2E9227EB5D100D90E36 /* JDRNPrefixHeader.pch */,
@@ -558,6 +568,7 @@
 				D071F3DF228013D900D90E36 /* WebPQueueManager.m in Sources */,
 				D071F2E8227EB58000D90E36 /* WZDataDownloadManager.m in Sources */,
 				D071F349227ED6C900D90E36 /* VideoCell.m in Sources */,
+				D05A82FB2282820300BB01EB /* WZ_Player.m in Sources */,
 				D0F8084A228123E400CC13EE /* WZPlayer.m in Sources */,
 				D071F2ED227EB79E00D90E36 /* Presenter_ViewController.m in Sources */,
 				D071F2E5227EB58000D90E36 /* JDRNDataRequester.m in Sources */,
@@ -570,6 +581,7 @@
 				D071F36B227EDC8700D90E36 /* AVPlayerManager.m in Sources */,
 				D071F3D622800BAF00D90E36 /* UIImageView+WebCache.m in Sources */,
 				D071F3B6227EDDF500D90E36 /* WebCacheHelpler.m in Sources */,
+				D05A82F82282819300BB01EB /* WZPlayerManager.m in Sources */,
 				D071F2E7227EB58000D90E36 /* AFNetworkReachabilityManager.m in Sources */,
 				D071F2E6227EB58000D90E36 /* WZDataRequester.m in Sources */,
 				D071F3DE228013D900D90E36 /* WebPImage.m in Sources */,

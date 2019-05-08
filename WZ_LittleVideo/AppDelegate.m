@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import "ViewController.h"
 
+#import "WZPlayer.h"
+
 @interface AppDelegate ()
 
 @end
@@ -23,6 +25,9 @@
     self.navigationController = [[UINavigationController alloc] initWithRootViewController:[[ViewController alloc] init]];
     
     self.window.rootViewController = self.navigationController;
+    
+//    WZPlayer *wz = [[WZPlayer alloc] init];
+//    [wz postDC];
     
     [self.window makeKeyAndVisible];
     

@@ -17,13 +17,77 @@
 @implementation WZPlayer
 
 -(void)postDC{
-    NSURL *url = [NSURL URLWithString:@"https://mvvideo5.meitudata.com/571090934cea5517.mp4"];
-    VIResourceLoaderManager *resourceLoaderManager = [VIResourceLoaderManager new];
-    self.resourceLoaderManager = resourceLoaderManager;
-    AVPlayerItem *playerItem = [resourceLoaderManager playerItemWithURL:url];
-    AVPlayer *player = [AVPlayer playerWithPlayerItem:playerItem];
-    AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:player];
-    playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+    AVURLAsset *asset = [AVURLAsset assetWithURL:[NSURL URLWithString:@"https://res.jaadee.net/appdir/ios/live/video/2019-05-08/20190508092710704-205814.mp4"]];
+    NSArray *keys = @[@"tracks",
+                      @"playable",
+                      @"duration"];
+    
+    __weak typeof(asset) weakAsset = asset;
+    __weak typeof(self) weakSelf = self;
+    [asset loadValuesAsynchronouslyForKeys:keys completionHandler:^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // check the keys
+            for (NSString *key in keys) {
+                NSError *error = nil;
+                AVKeyValueStatus keyStatus = [weakAsset statusOfValueForKey:key error:&error];
+                
+                switch (keyStatus) {
+                    case AVKeyValueStatusFailed:{
+                        // failed
+                        NSLog(@"fail");
+                        break;
+                    }
+                    case AVKeyValueStatusLoaded:{
+                        // success
+                        NSLog(@"success");
+                        break;
+                    }case AVKeyValueStatusCancelled:{
+                        // cancelled
+                        NSLog(@"cancled");
+                        break;
+                    }
+                    default:
+                        NSLog(@"unknown");
+                        break;
+                }
+            }
+            
+            // check playable
+            if (!weakAsset.playable) { // 不能播放
+                NSLog(@"not to play");
+                return;
+            }
+            
+        });
+    }];
+}
+
+#pragma mark 根据url获取视频第一帧图片
++ (UIImage*) thumbnailImageForVideo:(NSURL *)videoURL atTime:(NSTimeInterval)time {  AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:videoURL options:nil];
+    
+    NSParameterAssert(asset);
+    
+    AVAssetImageGenerator *assetImageGenerator =[[AVAssetImageGenerator alloc] initWithAsset:asset];
+    
+    assetImageGenerator.appliesPreferredTrackTransform = YES;
+    
+    assetImageGenerator.apertureMode = AVAssetImageGeneratorApertureModeEncodedPixels;
+    
+    CGImageRef thumbnailImageRef = NULL;
+    
+    CFTimeInterval thumbnailImageTime = time;
+    
+    NSError *thumbnailImageGenerationError = nil;
+    
+    thumbnailImageRef = [assetImageGenerator copyCGImageAtTime:CMTimeMake(thumbnailImageTime, 60)actualTime:NULL error:&thumbnailImageGenerationError];
+    
+    if(!thumbnailImageRef)
+        
+         NSLog(@"thumbnailImageGenerationError %@",thumbnailImageGenerationError);
+    
+    UIImage*thumbnailImage = thumbnailImageRef ? [[UIImage alloc]initWithCGImage: thumbnailImageRef] : nil;
+    
+    return thumbnailImage;
     
 }
 
