@@ -27,6 +27,7 @@ PODS:
   - Masonry (1.1.0)
   - MJExtension (3.0.15.1)
   - SVProgressHUD (2.2.5)
+  - VIMediaCache (0.4)
 
 DEPENDENCIES:
   - JSONModel
@@ -34,6 +35,7 @@ DEPENDENCIES:
   - Masonry
   - MJExtension
   - SVProgressHUD
+  - VIMediaCache
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -42,6 +44,7 @@ SPEC REPOS:
     - Masonry
     - MJExtension
     - SVProgressHUD
+    - VIMediaCache
 
 SPEC CHECKSUMS:
   JSONModel: 02ab723958366a3fd27da57ea2af2113658762e9
@@ -49,7 +52,8 @@ SPEC CHECKSUMS:
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJExtension: 19bc33ce2eee2d319760f5622562cf581a6ff756
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
+  VIMediaCache: aa650f82cb114c68a343beb4e67416cf5eb2f3a2
 
-PODFILE CHECKSUM: ea6426d02f71d1fd53ccb9f666d5c4a701261082
+PODFILE CHECKSUM: 8114efb1bcd8f338ca231cace4dc9d939d507356
 
 COCOAPODS: 1.6.0.beta.2

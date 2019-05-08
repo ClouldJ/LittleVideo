@@ -11,6 +11,7 @@ target 'WZ_LittleVideo' do
   pod 'JSONModel'
   pod 'Masonry'
   pod 'libwebp'
+  pod 'VIMediaCache'
 #  pod 'SDWebImage'
   target 'WZ_LittleVideoTests' do
     inherit! :search_paths

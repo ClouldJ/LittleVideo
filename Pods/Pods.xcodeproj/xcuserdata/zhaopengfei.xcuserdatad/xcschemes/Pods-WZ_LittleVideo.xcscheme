@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "13CCC40A65838A117C08CDE705BD9286"
+               BlueprintIdentifier = "762963667757D12D1664DD2F86C1F882"
                BlueprintName = "Pods-WZ_LittleVideo"
                ReferencedContainer = "container:Pods.xcodeproj"
                BuildableName = "libPods-WZ_LittleVideo.a">

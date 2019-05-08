@@ -39,6 +39,8 @@
 		D071F3D622800BAF00D90E36 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = D071F3D422800BAF00D90E36 /* UIImageView+WebCache.m */; };
 		D071F3DE228013D900D90E36 /* WebPImage.m in Sources */ = {isa = PBXBuildFile; fileRef = D071F3DA228013D900D90E36 /* WebPImage.m */; };
 		D071F3DF228013D900D90E36 /* WebPQueueManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D071F3DD228013D900D90E36 /* WebPQueueManager.m */; };
+		D0F8082F2280443F00CC13EE /* VideoDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F8082E2280443F00CC13EE /* VideoDownloadManager.m */; };
+		D0F8084A228123E400CC13EE /* WZPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F80849228123E400CC13EE /* WZPlayer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -131,6 +133,10 @@
 		D071F3DB228013D900D90E36 /* WebPQueueManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebPQueueManager.h; sourceTree = "<group>"; };
 		D071F3DC228013D900D90E36 /* WebPImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebPImage.h; sourceTree = "<group>"; };
 		D071F3DD228013D900D90E36 /* WebPQueueManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebPQueueManager.m; sourceTree = "<group>"; };
+		D0F8082D2280443F00CC13EE /* VideoDownloadManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoDownloadManager.h; sourceTree = "<group>"; };
+		D0F8082E2280443F00CC13EE /* VideoDownloadManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoDownloadManager.m; sourceTree = "<group>"; };
+		D0F80848228123E400CC13EE /* WZPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZPlayer.h; sourceTree = "<group>"; };
+		D0F80849228123E400CC13EE /* WZPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZPlayer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -226,6 +232,10 @@
 				D071F3D422800BAF00D90E36 /* UIImageView+WebCache.m */,
 				D071F347227ED6C900D90E36 /* VideoCell.h */,
 				D071F348227ED6C900D90E36 /* VideoCell.m */,
+				D0F8082D2280443F00CC13EE /* VideoDownloadManager.h */,
+				D0F8082E2280443F00CC13EE /* VideoDownloadManager.m */,
+				D0F80848228123E400CC13EE /* WZPlayer.h */,
+				D0F80849228123E400CC13EE /* WZPlayer.m */,
 				D071F312227ECAB100D90E36 /* RootViewController.h */,
 				D071F313227ECAB100D90E36 /* RootViewController.m */,
 				D071F2E9227EB5D100D90E36 /* JDRNPrefixHeader.pch */,
@@ -548,6 +558,7 @@
 				D071F3DF228013D900D90E36 /* WebPQueueManager.m in Sources */,
 				D071F2E8227EB58000D90E36 /* WZDataDownloadManager.m in Sources */,
 				D071F349227ED6C900D90E36 /* VideoCell.m in Sources */,
+				D0F8084A228123E400CC13EE /* WZPlayer.m in Sources */,
 				D071F2ED227EB79E00D90E36 /* Presenter_ViewController.m in Sources */,
 				D071F2E5227EB58000D90E36 /* JDRNDataRequester.m in Sources */,
 				D071F3D3227FCBB700D90E36 /* UIViewController+Hidden.m in Sources */,
@@ -564,6 +575,7 @@
 				D071F3DE228013D900D90E36 /* WebPImage.m in Sources */,
 				D071F314227ECAB100D90E36 /* RootViewController.m in Sources */,
 				D071F36A227EDC8700D90E36 /* AVPlayerView.m in Sources */,
+				D0F8082F2280443F00CC13EE /* VideoDownloadManager.m in Sources */,
 				D071F340227ED49300D90E36 /* NSNotification+Extension.m in Sources */,
 				D071F2E4227EB58000D90E36 /* Reachability.m in Sources */,
 				D071F290227EB2FC00D90E36 /* AppDelegate.m in Sources */,

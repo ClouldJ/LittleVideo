@@ -11,6 +11,7 @@
 #import "Presenter_PlayViewController.h"
 #import "UIViewController+Hidden.h"
 #import "AVPlayerManager.h"
+#import "VideoDownloadManager.h"
 
 @interface PlayViewController () <Presenter_PlayViewControllerDelegate>
 
@@ -23,7 +24,6 @@
 @property (nonatomic, strong) NSIndexPath                       *currentIndexPath;
 @property (nonatomic, assign) BOOL                              isCurPlayerPause;
 @property (nonatomic, strong) NSMutableArray                    *data;
-
 
 @end
 
@@ -47,19 +47,21 @@
     self.currentIndexPath = (NSIndexPath *)self.parameterObject;
     self.currentIndex = self.currentIndexPath.row;
     
-    [self.view addSubview:self.tableView];
+    [[VideoDownloadManager shareManager] startDownloadTaskWithModel:self.data];
     
-    //渲染界面----缺少pageIndex传入
-    [self.presenter reloadTableView:self.tableView withModel:self.data atIndex:self.currentIndex];
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
-        NSIndexPath *curIndexPath = [NSIndexPath indexPathForRow:self.currentIndex inSection:0];
-        [self.tableView scrollToRowAtIndexPath:curIndexPath atScrollPosition:UITableViewScrollPositionMiddle
-                                      animated:NO];
-        [self addObserver:self forKeyPath:@"currentIndex" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew context:nil];
-        
-    });
+//    [self.view addSubview:self.tableView];
+//
+//    //渲染界面----缺少pageIndex传入
+//    [self.presenter reloadTableView:self.tableView withModel:self.data atIndex:self.currentIndex];
+//
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//
+//        NSIndexPath *curIndexPath = [NSIndexPath indexPathForRow:self.currentIndex inSection:0];
+//        [self.tableView scrollToRowAtIndexPath:curIndexPath atScrollPosition:UITableViewScrollPositionMiddle
+//                                      animated:NO];
+//        [self addObserver:self forKeyPath:@"currentIndex" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew context:nil];
+//
+//    });
     
 }
 

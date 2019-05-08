@@ -18,6 +18,8 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <Masonry/Masonry.h>
 #import "UIImageView+WebCache.h"
+#import <AVFoundation/AVFoundation.h>
+#import <VIMediaCache.h>
 
 //safe thread
 #define dispatch_main_sync_safe(block)\

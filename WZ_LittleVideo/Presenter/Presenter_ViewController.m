@@ -26,7 +26,7 @@
     
     NSMutableDictionary *dic =[NSMutableDictionary dictionary];
     [dic setObject:@"81871" forKey:@"uid"];
-    [dic setObject:@"20" forKey:@"pageSize"];
+    [dic setObject:@"5" forKey:@"pageSize"];
     [dic setObject:@"1" forKey:@"currPage"];
     [dic setObject:@"recommend" forKey:@"listName"];
     
