@@ -55,7 +55,7 @@
     dispatch_queue_t downloadVideoQueue = dispatch_queue_create("downloadVideoQueue", DISPATCH_QUEUE_CONCURRENT);
     __weak __typeof(self) wself = self;
     for (NSInteger i = 0; i<modelArray.count; i++) {
-//        dispatch_async(downloadVideoQueue, ^{
+        dispatch_async(downloadVideoQueue, ^{
             CTMediaModel *model = modelArray[i];
             
             WZDataDownloadManager *downloader = [[WZDataDownloadManager alloc] init];
@@ -105,7 +105,7 @@
 //                    } isBackground:YES];
 //                });
 //            }];
-//        });
+        });
     }
 
 }
