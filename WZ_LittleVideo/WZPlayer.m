@@ -102,8 +102,6 @@
             weakSelf.playerItem = [AVPlayerItem playerItemWithAsset:weakSelf.urlAsset];
             
             [weakSelf.player replaceCurrentItemWithPlayerItem:weakSelf.playerItem];
-
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"dadasd" object:nil];
             
             [weakSelf.playerItem addObserver:weakSelf forKeyPath:@"status" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew context:nil];
             //添加播放器观察者
@@ -149,10 +147,14 @@
         if(_playerItem.status == AVPlayerItemStatusReadyToPlay) {
             [self.playerLayer setHidden:NO];
         }
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"WZPlayerStatusChange" object:_playerItem];
+        
         //视频播放状体更新方法回调
-        if(_delegate) {
-            [_delegate onPlayItemStatusUpdate:_playerItem.status];
-        }
+//        if(_delegate) {
+//            [_delegate onPlayItemStatusUpdate:_playerItem.status];
+//        }
+        
     }else {
         return [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
@@ -310,7 +312,7 @@
 -(AVPlayerLayer *)playerLayer {
     if (!_playerLayer) {
         _playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
-        _playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+//        _playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     }
     return _playerLayer;
 }

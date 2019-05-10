@@ -50,20 +50,19 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    VideoCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ddCell" forIndexPath:indexPath];
-    
+    VideoCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ddCell"];
+    if (!cell) {
+        cell = [[VideoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ddCell"];
+    }
     if (self.modelArray.count>0) {
         CTMediaModel *model = self.modelArray[indexPath.row];
         [cell cellWithModel:model];
+        __weak typeof(cell) weak_cell = cell;
         cell.onPlayerReady = ^{
-            [cell play];
+            [weak_cell play];
         };
-        if (indexPath.row == self.currentIndex) {
-            [cell startDownloadBackgroundTask];
-
-        }
+        
     }
-    
     return cell;
 }
 

@@ -67,7 +67,35 @@
         [self addObserver:self forKeyPath:@"currentIndex" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew context:nil];
 
     });
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(wz_playerStatusChange:) name:@"WZPlayerStatusChange" object:nil];
 
+}
+
+#pragma mark 播放器状态回调
+-(void)wz_playerStatusChange:(NSNotification *)na {
+    VideoCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
+    
+    AVPlayerItem *pp = (AVPlayerItem *)na.object;
+    switch (pp.status) {
+        case AVPlayerItemStatusUnknown:
+            [cell startLoadingPlayItemAnim:YES];
+            NSLog(@"播放器状态变化:Unknown");
+            break;
+        case AVPlayerItemStatusReadyToPlay:
+            [cell startLoadingPlayItemAnim:NO];
+            NSLog(@"播放器状态变化:ReadyToPlay");
+            break;
+        case AVPlayerItemStatusFailed:
+            NSLog(@"播放器状态变化:Failed");
+            break;
+        default:
+            break;
+    }
+}
+
+-(void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"WZPlayerStatusChange" object:nil];
 }
 
 #pragma mark Presenter_PlayViewControllerDelegate
@@ -93,8 +121,8 @@
         //获取当前显示的cell
         VideoCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
         [cell startDownloadHighPriorityTask];
-        __weak typeof (cell) wcell = cell;
-        __weak typeof (self) wself = self;
+//        __weak typeof (cell) wcell = cell;
+//        __weak typeof (self) wself = self;
         //判断当前cell的视频源是否已经准备播放
         
         
@@ -133,7 +161,6 @@
         } else {
             self.automaticallyAdjustsScrollViewInsets = NO;
         }
-        [_tableView registerClass:VideoCell.class forCellReuseIdentifier:@"ddCell"];
     }
     return _tableView;
     

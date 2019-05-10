@@ -130,7 +130,7 @@
 }
 
 -(void)aaa {
-    NSLog(@"开始播放了");
+//    NSLog(@"开始播放了");
     self.imageViewAA.hidden = YES;
 }
 
@@ -141,7 +141,7 @@
 
     
     self.player = [AVPlayerLayer playerLayerWithPlayer:[WZPlayer defaultPlayer].player];
-    self.player.videoGravity = AVLayerVideoGravityResizeAspectFill;
+//    self.player.videoGravity = AVLayerVideoGravityResizeAspectFill;
     
     self.player.frame = CGRectMake(0, 0, SCREEN_W, SCREEN_H);
     [WZPlayer defaultPlayer].delegate = self;
@@ -214,6 +214,10 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+-(void)dealloc {
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"" object:nil];
 }
 
 @end
