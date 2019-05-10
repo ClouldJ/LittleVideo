@@ -8,10 +8,12 @@
 
 #import "VideoCell.h"
 
-#import "AVPlayerView.h"
+//#import "AVPlayerView.h"
 #import "CTMediaModel.h"
 
-@interface VideoCell () <AVPlayerUpdateDelegate>
+#import "WZPlayer.h"
+
+@interface VideoCell () <WZPlayerDelegate>
 
 @property (nonatomic, strong) UIView                   *container;
 @property (nonatomic, strong) CAGradientLayer          *gradientLayer;
@@ -21,7 +23,7 @@
 
 @property (nonatomic, strong) UIView                   *playerStatusBar;
 
-
+@property (nonatomic, strong) UIImageView *imageViewAA;
 @end
 
 @implementation VideoCell
@@ -43,7 +45,7 @@
     [super prepareForReuse];
     
     self.isPlayerReady = NO;
-    [self.playerView cancelLoading];
+    [[WZPlayer defaultPlayer] cancelLoading];
     
 //    self.coverImageView.hidden = NO;
     
@@ -64,19 +66,24 @@
 -(void)onPlayItemStatusUpdate:(AVPlayerItemStatus)status {
     switch (status) {
         case AVPlayerItemStatusUnknown:
+            NSLog(@"开始loading动画");
+            self.imageViewAA.hidden = NO;
             [self startLoadingPlayItemAnim:YES];
             break;
         case AVPlayerItemStatusReadyToPlay:
-            [self startLoadingPlayItemAnim:NO];
-            
+//            [self startLoadingPlayItemAnim:NO];
+            NSLog(@"结束loading动画");
             _isPlayerReady = YES;
 //            [_musicAlum startAnimation:_aweme.rate];
 //            self.coverImageView.hidden = YES;
-            if(_onPlayerReady) {
-                _onPlayerReady();
+//            [self play];
+            if (self.onPlayerReady) {
+                self.onPlayerReady();
             }
+            self.imageViewAA.hidden = YES;
             break;
         case AVPlayerItemStatusFailed:
+            self.imageViewAA.hidden = NO;
             [self startLoadingPlayItemAnim:NO];
             NSLog(@"加载失败");
             break;
@@ -88,7 +95,7 @@
 //加载动画
 -(void)startLoadingPlayItemAnim:(BOOL)isStart {
     if (isStart) {
-        self.playerStatusBar.backgroundColor = [UIColor whiteColor];
+        self.playerStatusBar.backgroundColor = [UIColor redColor];
         [self.playerStatusBar setHidden:NO];
         [self.playerStatusBar.layer removeAllAnimations];
         
@@ -119,67 +126,49 @@
 -(void)cellWithModel:(CTMediaModel *)model {
     //填充cell
     self.videoModel = model;
-//    [self.coverImageView setImageWithURL:[NSURL URLWithString:self.videoModel.goodsLogo]];
+    [self.imageViewAA setImageWithURL:[NSURL URLWithString:self.videoModel.goodsLogo]];
 }
 
-#pragma mark 懒加载
--(AVPlayerView *)playerView {
-    if (!_playerView) {
-        _playerView = [AVPlayerView new];
-        _playerView.frame = CGRectMake(0, 0, SCREEN_W, SCREEN_H);
-    }
-    return _playerView;
-}
-
--(UIView *)container {
-    if (!_container) {
-        _container = [UIView new];
-        _container.frame = CGRectMake(0, 0, SCREEN_W, SCREEN_H);
-    }
-    return _container;
-}
-
--(CAGradientLayer *)gradientLayer {
-    if (!_gradientLayer) {
-        _gradientLayer = [CAGradientLayer layer];
-        _gradientLayer.colors = @[(__bridge id)[UIColor clearColor].CGColor, (__bridge id)RGBA(0, 0, 0, 0.2f).CGColor, (__bridge id)RGBA(0, 0, 0, 0.4f).CGColor];
-        _gradientLayer.locations = @[@0.3, @0.6, @1.0];
-        _gradientLayer.startPoint = CGPointMake(0.0f, 0.0f);
-        _gradientLayer.endPoint = CGPointMake(0.0f, 1.0f);
-    }
-    return _gradientLayer;
-}
-
--(UITapGestureRecognizer *)singleTapGesture {
-    if (!_singleTapGesture) {
-        _singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
-    }
-    return _singleTapGesture;
-}
-
--(UIView *)playerStatusBar {
-    if (!_playerStatusBar) {
-        _playerStatusBar = [[UIView alloc]init];
-        _playerStatusBar.backgroundColor = [UIColor whiteColor];
-        [_playerStatusBar setHidden:YES];
-    }
-    return _playerStatusBar;
+-(void)aaa {
+    NSLog(@"开始播放了");
+    self.imageViewAA.hidden = YES;
 }
 
 -(void)initlizeSubViews {
+//    cell.player.player = [WZPlayer defaultPlayer].player;
     
-    self.playerView.delegate = self;
-    [self.contentView addSubview:self.playerView];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(aaa) name:@"dadasd" object:nil];
+
     
+    self.player = [AVPlayerLayer playerLayerWithPlayer:[WZPlayer defaultPlayer].player];
+    self.player.videoGravity = AVLayerVideoGravityResizeAspectFill;
     
+    self.player.frame = CGRectMake(0, 0, SCREEN_W, SCREEN_H);
+    [WZPlayer defaultPlayer].delegate = self;
+    [self.contentView.layer addSublayer:self.player];
+    
+    _container = [UIView new];
+    _container.frame = CGRectMake(0, 0, SCREEN_W, SCREEN_H);
     [self.contentView addSubview:self.container];
     
+    self.imageViewAA = [[UIImageView alloc] init];
+    self.imageViewAA.frame = CGRectMake(0, 0, SCREEN_W, SCREEN_H);
+    [self.container addSubview:self.imageViewAA];
     
+    
+    _gradientLayer = [CAGradientLayer layer];
+    _gradientLayer.colors = @[(__bridge id)[UIColor clearColor].CGColor, (__bridge id)RGBA(0, 0, 0, 0.2f).CGColor, (__bridge id)RGBA(0, 0, 0, 0.4f).CGColor];
+    _gradientLayer.locations = @[@0.3, @0.6, @1.0];
+    _gradientLayer.startPoint = CGPointMake(0.0f, 0.0f);
+    _gradientLayer.endPoint = CGPointMake(0.0f, 1.0f);
     [self.container.layer addSublayer:self.gradientLayer];
     
+    _singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
     [self.container addGestureRecognizer:self.singleTapGesture];
     
-
+    _playerStatusBar = [[UIView alloc]init];
+    _playerStatusBar.backgroundColor = [UIColor whiteColor];
+    [_playerStatusBar setHidden:YES];
     [self.container addSubview:self.playerStatusBar];
     
     [self.playerStatusBar mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -195,28 +184,30 @@
 }
 
 - (void)play {
-    [self.playerView play];
+    [[WZPlayer defaultPlayer] play];
 //    [_pauseIcon setHidden:YES];
 }
 
 - (void)pause {
-    [self.playerView pause];
+    [[WZPlayer defaultPlayer] pause];
 //    [_pauseIcon setHidden:NO];
 }
 
 - (void)replay {
-    [self.playerView replay];
-//    [_pauseIcon setHidden:YES];
+    NSString *playUrl = self.videoModel.url;
+
+    [[WZPlayer defaultPlayer] rePlayWithUrl:playUrl];
+
 }
 
 - (void)startDownloadBackgroundTask {
     NSString *playUrl = self.videoModel.url;
-    [self.playerView setPlayerWithUrl:playUrl];
+    [[WZPlayer defaultPlayer] setPlayerWithUrl:playUrl];
 }
 
 - (void)startDownloadHighPriorityTask {
     NSString *playUrl = self.videoModel.url;
-    [self.playerView startDownloadTask:[[NSURL alloc] initWithString:playUrl] isBackground:NO];
+    [[WZPlayer defaultPlayer] startDownloadTask:[[NSURL alloc] initWithString:playUrl] isBackground:NO];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

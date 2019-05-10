@@ -189,17 +189,17 @@
 
 //播放
 -(void)play {
-    [[AVPlayerManager shareManager] play:_player];
+    [[AVPlayerManager shareManager] pause_layer:_playerLayer];
 }
 
 //暂停
 -(void)pause {
-    [[AVPlayerManager shareManager] pause:_player];
+    [[AVPlayerManager shareManager] pause_layer:_playerLayer];
 }
 
 //重新播放
 -(void)replay {
-    [[AVPlayerManager shareManager] replay:_player];
+    [[AVPlayerManager shareManager] replay_layer:_playerLayer];
 }
 
 //播放速度

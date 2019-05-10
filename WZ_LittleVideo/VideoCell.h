@@ -27,6 +27,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)pause;
 - (void)replay;
 
+@property (nonatomic, strong) AVPlayerLayer *player;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

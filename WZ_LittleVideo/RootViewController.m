@@ -29,7 +29,7 @@
         if (dObject) {
             ((RootViewController *)controller).dataObject = dObject;
         }
-        ((RootViewController *)controller).view.backgroundColor = [UIColor whiteColor];
+        ((RootViewController *)controller).view.backgroundColor = [UIColor blackColor];
         [YBKShareAppDelegate.navigationController pushViewController:controller animated:YES];
         
     }

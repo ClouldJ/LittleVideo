@@ -47,22 +47,27 @@
     self.currentIndexPath = (NSIndexPath *)self.parameterObject;
     self.currentIndex = self.currentIndexPath.row;
     
-    [[VideoDownloadManager shareManager] startDownloadTaskWithModel:self.data];
+//    [[VideoDownloadManager shareManager] startDownloadTaskWithModel:self.data];
     
-//    [self.view addSubview:self.tableView];
-//
-//    //渲染界面----缺少pageIndex传入
-//    [self.presenter reloadTableView:self.tableView withModel:self.data atIndex:self.currentIndex];
-//
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//
-//        NSIndexPath *curIndexPath = [NSIndexPath indexPathForRow:self.currentIndex inSection:0];
-//        [self.tableView scrollToRowAtIndexPath:curIndexPath atScrollPosition:UITableViewScrollPositionMiddle
-//                                      animated:NO];
-//        [self addObserver:self forKeyPath:@"currentIndex" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew context:nil];
-//
-//    });
+    [self.view addSubview:self.tableView];
     
+    NSMutableArray *arr = [NSMutableArray arrayWithObjects:self.data[self.currentIndex],self.data[self.currentIndex+1], nil];
+
+    //渲染界面----缺少pageIndex传入
+    [self.presenter reloadTableView:self.tableView withModel:self.data atIndex:self.currentIndex];
+    
+//    __weak __typeof(self) wself = self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+//        [wself.presenter reloadDatas:wself.data];
+
+        NSIndexPath *curIndexPath = [NSIndexPath indexPathForRow:self.currentIndex inSection:0];
+        [self.tableView scrollToRowAtIndexPath:curIndexPath atScrollPosition:UITableViewScrollPositionMiddle
+                                      animated:NO];
+        [self addObserver:self forKeyPath:@"currentIndex" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew context:nil];
+
+    });
+
 }
 
 #pragma mark Presenter_PlayViewControllerDelegate
@@ -91,19 +96,20 @@
         __weak typeof (cell) wcell = cell;
         __weak typeof (self) wself = self;
         //判断当前cell的视频源是否已经准备播放
-        if(cell.isPlayerReady) {
-            //播放视频
+        
+        
+//        if (cell.isPlayerReady) {
             [cell replay];
-        }else {
-            [[AVPlayerManager shareManager] pauseAll];
-            //当前cell的视频源还未准备好播放，则实现cell的OnPlayerReady Block 用于等待视频准备好后通知播放
-            cell.onPlayerReady = ^{
-                NSIndexPath *indexPath = [wself.tableView indexPathForCell:wcell];
-                if(!wself.isCurPlayerPause && indexPath && indexPath.row == wself.currentIndex) {
-                    [wcell play];
-                }
-            };
-        }
+//        }else{
+//            //当前cell的视频源还未准备好播放，则实现cell的OnPlayerReady Block 用于等待视频准备好后通知播放
+//            cell.onPlayerReady = ^{
+//                NSIndexPath *indexPath = [wself.tableView indexPathForCell:wcell];
+//                if(!wself.isCurPlayerPause && indexPath && indexPath.row == wself.currentIndex) {
+//                    [wcell play];
+//                }
+//            };
+//        }
+
     } else {
         return [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }

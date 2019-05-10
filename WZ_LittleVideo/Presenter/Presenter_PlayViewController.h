@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak)id<Presenter_PlayViewControllerDelegate> delegate;
 
+-(void)reloadDatas:(NSMutableArray *)array;
+
 @end
 
 NS_ASSUME_NONNULL_END

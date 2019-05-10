@@ -13,6 +13,8 @@
 #import "JDRNDataRequester.h"
 
 #import "CTMediaModel.h"
+#import "AVPlayerManager.h"
+#import "WZPlayer.h"
 
 @interface Presenter_PlayViewController ()
 
@@ -39,7 +41,9 @@
     self.pageIndex = 1;         //待传入对应page信息
     self.tableView = tableView;
     [tableView reloadData];
+
 }
+
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.modelArray.count;
@@ -51,7 +55,13 @@
     if (self.modelArray.count>0) {
         CTMediaModel *model = self.modelArray[indexPath.row];
         [cell cellWithModel:model];
-        [cell startDownloadBackgroundTask];
+        cell.onPlayerReady = ^{
+            [cell play];
+        };
+        if (indexPath.row == self.currentIndex) {
+            [cell startDownloadBackgroundTask];
+
+        }
     }
     
     return cell;
@@ -71,24 +81,49 @@
             self.currentIndex --;   //向上滑动索引递减
         }
         
+//        [[AVPlayerManager shareManager] stopAll];
+        
         if (self.delegate && [self.delegate respondsToSelector:@selector(shouldScrollView:moveToIndex:)]) {
             [self.delegate shouldScrollView:scrollView moveToIndex:self.currentIndex];
         }
+        
+        //todo移除，并销毁播放器
 
-        if (self.currentIndex == self.modelArray.count - 1) {
+        if (self.currentIndex >= self.modelArray.count - 2) {
             //准备加入新数据
-            NSLog(@"准备加入新数据");
             [self loadMoreVideoWithPage:self.pageIndex + 1];
         }
         
     });
 }
 
+-(void)reloadDatas:(NSMutableArray *)array {
+    __weak __typeof(self) wself = self;
+    dispatch_main_async_safe(^{
+        [wself.tableView beginUpdates];
+        for (NSInteger i = 0; i<array.count; i++) {
+            if (![wself.modelArray containsObject:array[i]]) {
+                [wself.modelArray addObject:array[i]];
+            }
+        }
+        
+        NSMutableArray<NSIndexPath *> *indexPaths = [NSMutableArray array];
+        for(NSInteger row = 1; row<wself.modelArray.count; row++) {
+            NSLog(@"加入的数据:%ld",(long)row);
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
+            [indexPaths addObject:indexPath];
+        }
+        [wself.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:NO];
+        [wself.tableView endUpdates];
+    });
+    
+}
+
 -(void)loadMoreVideoWithPage:(NSInteger)page {
     
     NSMutableDictionary *dic =[NSMutableDictionary dictionary];
     [dic setObject:@"81871" forKey:@"uid"];
-    [dic setObject:@"20" forKey:@"pageSize"];
+    [dic setObject:@"5" forKey:@"pageSize"];
     [dic setObject:[NSString stringWithFormat:@"%ld",page] forKey:@"currPage"];
     [dic setObject:@"recommend" forKey:@"listName"];
     

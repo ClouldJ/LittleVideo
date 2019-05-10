@@ -11,6 +11,7 @@
 
 @interface AVPlayerManager:NSObject
 @property (nonatomic, strong) NSMutableArray<AVPlayer *>   *playerArray;  //用于存储AVPlayer的数组
+@property (nonatomic, strong) NSMutableArray<AVPlayerLayer *>   *playLayerArray;  //用于存储AVPlayer的数组
 
 + (AVPlayerManager *)shareManager;
 + (void)setAudioMode;
@@ -19,5 +20,10 @@
 - (void)pauseAll;
 - (void)replay:(AVPlayer *)player;
 - (void)removeAllPlayers;
+
+- (void)play_layer:(AVPlayerLayer *)playerLayer;
+- (void)pause_layer:(AVPlayerLayer *)playerLayer;
+- (void)replay_layer:(AVPlayerLayer *)playerLayer;
+- (void)stopAll;
 
 @end

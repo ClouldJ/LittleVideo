@@ -32,6 +32,7 @@
     self = [super init];
     if (self) {
         _playerArray = [NSMutableArray array];
+        _playLayerArray = [NSMutableArray array];
     }
     
     return self;
@@ -46,9 +47,27 @@
     [player play];
 }
 
+-(void)play_layer:(AVPlayerLayer *)playerLayer {
+    [_playLayerArray enumerateObjectsUsingBlock:^(AVPlayerLayer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [obj.player pause];
+    }];
+    
+    if (![_playLayerArray containsObject:playerLayer]) {
+        [_playLayerArray addObject:playerLayer];
+    }
+    
+    [playerLayer.player play];
+}
+
 - (void)pause:(AVPlayer *)player {
     if([_playerArray containsObject:player]) {
         [player pause];
+    }
+}
+
+-(void)pause_layer:(AVPlayerLayer *)playerLayer {
+    if ([_playLayerArray containsObject:playerLayer]) {
+        [playerLayer.player pause];
     }
 }
 
@@ -71,8 +90,31 @@
     }
 }
 
+-(void)replay_layer:(AVPlayerLayer *)playerLayer {
+    [_playLayerArray enumerateObjectsUsingBlock:^(AVPlayerLayer * obj, NSUInteger idx, BOOL *stop) {
+        [obj.player pause];
+    }];
+    if([_playLayerArray containsObject:playerLayer]) {
+        [playerLayer.player seekToTime:kCMTimeZero];
+        [self play_layer:playerLayer];
+    }else {
+        [_playLayerArray addObject:playerLayer];
+        [self play_layer:playerLayer];
+    }
+}
+
 - (void)removeAllPlayers {
     [_playerArray removeAllObjects];
 }
+
+-(void)stopAll {
+    [_playLayerArray enumerateObjectsUsingBlock:^(AVPlayerLayer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [obj.player pause];
+        [obj removeFromSuperlayer];
+        obj.player = nil;
+    }];
+//    [_playLayerArray removeAllObjects];
+}
+
 
 @end
