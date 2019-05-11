@@ -123,6 +123,10 @@
     
 }
 
+-(void)setCoverHidden:(BOOL)hidden {
+    self.imageViewAA.hidden = hidden;
+}
+
 -(void)cellWithModel:(CTMediaModel *)model {
     //填充cell
     self.videoModel = model;

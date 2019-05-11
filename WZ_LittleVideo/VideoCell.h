@@ -31,6 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(void)startLoadingPlayItemAnim:(BOOL)isStart;
 
+-(void)setCoverHidden:(BOOL)hidden;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -80,10 +80,13 @@
     switch (pp.status) {
         case AVPlayerItemStatusUnknown:
             [cell startLoadingPlayItemAnim:YES];
+            [cell setCoverHidden:NO];
             NSLog(@"播放器状态变化:Unknown");
             break;
         case AVPlayerItemStatusReadyToPlay:
             [cell startLoadingPlayItemAnim:NO];
+            [cell play];
+            [cell setCoverHidden:YES];
             NSLog(@"播放器状态变化:ReadyToPlay");
             break;
         case AVPlayerItemStatusFailed:

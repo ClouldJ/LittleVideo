@@ -72,7 +72,9 @@
 -(void)setUpPlayerWithUrl:(NSString *)url isReplay:(BOOL)replay {
     self.currentPlayerUrl = [NSURL URLWithString:url];
  
-//    [self cancelLoading];
+//    if (replay) {
+//        [self cancelLoading];
+//    }
     
     //获取路径schema
     NSURLComponents *components = [[NSURLComponents alloc] initWithURL:self.currentPlayerUrl resolvingAgainstBaseURL:NO];
@@ -91,20 +93,42 @@
                 weakSelf.currentPlayerUrl = [NSURL fileURLWithPath:data];
             }
             
+            if (weakSelf.combineOperation) {
+                [weakSelf.combineOperation cancel];
+                weakSelf.combineOperation = nil;
+            }
+            
+            [weakSelf.queryCacheOperation cancel];
+            
+            [weakSelf.urlAsset cancelLoading];
+            weakSelf.data = nil;
+            //结束所有视频数据加载请求
+            for (AVAssetResourceLoadingRequest *re in weakSelf.pendingRequests) {
+                if(![re isFinished]) {
+                    [re finishLoading];
+                }
+            }
+            
+            [weakSelf.pendingRequests removeAllObjects];
+            
             weakSelf.urlAsset = [AVURLAsset URLAssetWithURL:self.currentPlayerUrl options:nil];
             [weakSelf.urlAsset.resourceLoader setDelegate:weakSelf queue:dispatch_get_main_queue()];
             
-            if (weakSelf.player) {
-                [weakSelf.player.currentItem removeObserver:self forKeyPath:@"status"];
-                [weakSelf.player removeTimeObserver:weakSelf.timeObserver];
+            if (weakSelf.playerItem) {
+                [weakSelf.playerItem removeObserver:self forKeyPath:@"status"];
             }
             
             weakSelf.playerItem = [AVPlayerItem playerItemWithAsset:weakSelf.urlAsset];
+            [weakSelf.playerItem addObserver:weakSelf forKeyPath:@"status" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew context:nil];
+            //添加播放器观察者
             
             [weakSelf.player replaceCurrentItemWithPlayerItem:weakSelf.playerItem];
             
-            [weakSelf.playerItem addObserver:weakSelf forKeyPath:@"status" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew context:nil];
-            //添加播放器观察者
+            
+            if (replay) {
+                [weakSelf.player removeTimeObserver:weakSelf.timeObserver];
+            }
+            
             [weakSelf addProgressObserver];
             
         });
