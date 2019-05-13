@@ -51,7 +51,7 @@
     
     [self.view addSubview:self.tableView];
     
-    NSMutableArray *arr = [NSMutableArray arrayWithObjects:self.data[self.currentIndex],self.data[self.currentIndex+1], nil];
+    
 
     //渲染界面----缺少pageIndex传入
     [self.presenter reloadTableView:self.tableView withModel:self.data atIndex:self.currentIndex];
@@ -103,7 +103,7 @@
 
 #pragma mark Presenter_PlayViewControllerDelegate
 -(void)shouldScrollView:(UIScrollView *)scrollView moveToIndex:(NSInteger)index {
-    self.currentIndex = index;
+//    self.currentIndex = index;
     [UIView animateWithDuration:0.15
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseOut animations:^{
@@ -130,7 +130,7 @@
         
         
 //        if (cell.isPlayerReady) {
-            [cell replay];
+//            [cell replay];
 //        }else{
 //            //当前cell的视频源还未准备好播放，则实现cell的OnPlayerReady Block 用于等待视频准备好后通知播放
 //            cell.onPlayerReady = ^{

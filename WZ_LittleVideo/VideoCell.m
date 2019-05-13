@@ -24,6 +24,8 @@
 @property (nonatomic, strong) UIView                   *playerStatusBar;
 
 @property (nonatomic, strong) UIImageView *imageViewAA;
+
+@property (nonatomic, strong) AVQueuePlayer *queuePlayer;
 @end
 
 @implementation VideoCell
@@ -33,9 +35,10 @@
     // Initialization code
 }
 
--(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+-(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier withQueuePlayer:(nonnull AVQueuePlayer *)queuePlayer{
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.backgroundColor = RGBA(0, 0, 0, 0.1f);
+        self.queuePlayer = queuePlayer;
         [self initlizeSubViews];
     }
     return self;
@@ -127,7 +130,7 @@
     self.imageViewAA.hidden = hidden;
 }
 
--(void)cellWithModel:(CTMediaModel *)model {
+-(void)cellWithModel:(CTMediaModel *)model withPlayerItem:(nonnull AVPlayerItem *)playerItem{
     //填充cell
     self.videoModel = model;
     [self.imageViewAA setImageWithURL:[NSURL URLWithString:self.videoModel.goodsLogo]];
@@ -139,13 +142,8 @@
 }
 
 -(void)initlizeSubViews {
-//    cell.player.player = [WZPlayer defaultPlayer].player;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(aaa) name:@"dadasd" object:nil];
-
-    
-    self.player = [AVPlayerLayer playerLayerWithPlayer:[WZPlayer defaultPlayer].player];
-//    self.player.videoGravity = AVLayerVideoGravityResizeAspectFill;
+    self.player = [AVPlayerLayer playerLayerWithPlayer:self.queuePlayer];
     
     self.player.frame = CGRectMake(0, 0, SCREEN_W, SCREEN_H);
     [WZPlayer defaultPlayer].delegate = self;
@@ -156,7 +154,9 @@
     [self.contentView addSubview:self.container];
     
     self.imageViewAA = [[UIImageView alloc] init];
+    self.imageViewAA.contentMode = UIViewContentModeScaleAspectFit;
     self.imageViewAA.frame = CGRectMake(0, 0, SCREEN_W, SCREEN_H);
+    self.imageViewAA.hidden = NO;
     [self.container addSubview:self.imageViewAA];
     
     
