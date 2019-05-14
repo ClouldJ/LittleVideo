@@ -26,9 +26,11 @@
     
     NSMutableDictionary *dic =[NSMutableDictionary dictionary];
     [dic setObject:@"81871" forKey:@"uid"];
-    [dic setObject:@"5" forKey:@"pageSize"];
+    [dic setObject:@"20" forKey:@"pageSize"];
     [dic setObject:@"1" forKey:@"currPage"];
     [dic setObject:@"recommend" forKey:@"listName"];
+    
+//    错误下载链接（这里指当前下载链接中无内容），在被下载以后会形成一个死循环zip解压包。造成解压的死循环，并且解压出的内容与名称依然与上一层雷同。这样就会导致下一个正确的压缩包不能进行正常存储，且错误压缩包暂时未能正常删除
     
     [SVProgressHUD showWithStatus:@"数据获取中..."];
     

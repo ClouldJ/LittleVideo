@@ -28,29 +28,29 @@
     [super viewDidLoad];
 //    self.view.backgroundColor = [UIColor whiteColor];
     
-    WZPlayerManager *playerManager = [[WZPlayerManager alloc] init];
-
-    self.wz_player = [playerManager wz_playerWithUrl:@"https://res.jaadee.net/appdir/ios/live/video/2019-05-08/20190508092710704-205814.mp4"];
-    AVPlayerLayer *layer = [AVPlayerLayer playerLayerWithPlayer:self.wz_player];
-    layer.frame = CGRectMake(0, 0, SCREEN_W, SCREEN_H);
-    [self.view.layer addSublayer:layer];
-    
-    [playerManager play];
+//    WZPlayerManager *playerManager = [[WZPlayerManager alloc] init];
+//
+//    self.wz_player = [playerManager wz_playerWithUrl:@"https://res.jaadee.net/appdir/ios/live/video/2019-05-08/20190508092710704-205814.mp4"];
+//    AVPlayerLayer *layer = [AVPlayerLayer playerLayerWithPlayer:self.wz_player];
+//    layer.frame = CGRectMake(0, 0, SCREEN_W, SCREEN_H);
+//    [self.view.layer addSublayer:layer];
+//
+//    [playerManager play];
     
 //    AVPlayerView *pp = [[AVPlayerView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H)];
 //    [pp setPlayerWithUrl:@"https://res.jaadee.net/appdir/ios/live/video/2019-05-08/20190508092710704-205814.mp4"];
 //    [self.view addSubview:pp];
-//
+
 //    [pp play];
     
-//    [self.view addSubview:self.tableView];
-//
-//    typeof(ViewController) *weakSelf = self;
-//    [self.self_presenter requestWithResult:^{
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [weakSelf.tableView reloadData];
-//        });
-//    }];
+    [self.view addSubview:self.tableView];
+
+    typeof(ViewController) *weakSelf = self;
+    [self.self_presenter requestWithResult:^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf.tableView reloadData];
+        });
+    }];
 }
 
 #pragma mark 懒加载
