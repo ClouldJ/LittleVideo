@@ -44,14 +44,19 @@ typedef void(^WebDownloaderCancelBlock)(void);
 @interface WebCacheHelpler : NSObject
 //单例
 + (WebCacheHelpler *)sharedWebCache;
+
 //根据key值从内存和本地磁盘中查询缓存数据
 -(NSOperation *)queryDataFromMemory:(NSString *)key cacheQueryCompletedBlock:(WebCacheQueryCompletedBlock)cacheQueryCompletedBlock;
+
 //根据key值从本地磁盘中查询缓存数据
 -(NSOperation *)queryURLFromDiskMemory:(NSString *)key cacheQueryCompletedBlock:(WebCacheQueryCompletedBlock)cacheQueryCompletedBlock;
+
 //根据key值从内存和本地磁盘中查询缓存数据，所查询缓存数据包含指定文件类型
 -(NSOperation *)queryDataFromMemory:(NSString *)key cacheQueryCompletedBlock:(WebCacheQueryCompletedBlock)cacheQueryCompletedBlock extension:(NSString *)extension;
+
 //存储缓存数据到内存和本地磁盘
 -(void)storeDataCache:(NSData *)data forKey:(NSString *)key;
+
 //根据key值从本地磁盘中查询缓存数据，所查询缓存数据包含指定文件类型
 -(NSOperation *)queryURLFromDiskMemory:(NSString *)key cacheQueryCompletedBlock:(WebCacheQueryCompletedBlock)cacheQueryCompletedBlock extension:(NSString *)extension;
 

@@ -1,0 +1,17 @@
+//
+//  WZBasePlayer.h
+//  WZ_LittleVideo
+//
+//  Created by 赵鹏飞 on 2019/5/13.
+//  Copyright © 2019 赵鹏飞. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface WZBasePlayer : NSObject
+
+@end
+
+NS_ASSUME_NONNULL_END

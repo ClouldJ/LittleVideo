@@ -56,15 +56,25 @@
         
         AVPlayerItem *item = [AVPlayerItem playerItemWithAsset:av];
         [item addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew context:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerItemDidReachEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:item];
         
         [self.items addObject:item];
         
     }
     
     self.queuePlayer = [AVQueuePlayer queuePlayerWithItems:self.items];
-    self.queuePlayer.actionAtItemEnd = AVPlayerActionAtItemEndPause;
+//    self.queuePlayer.actionAtItemEnd = AVPlayerActionAtItemEndPause;
     [self addProgressObserver];
     [tableView reloadData];
+
+}
+
+- (void)playerItemDidReachEnd:(NSNotification *)notification {
+    NSLog(@"播放完了  重启播放");
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.queuePlayer.currentItem seekToTime:kCMTimeZero];
+        [self.queuePlayer play];
+    });
 
 }
 
@@ -78,20 +88,20 @@
             
             if (current>0) {
                 //隐藏
-                VideoCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.currentIndex inSection:0]];
+                VideoCell *cell = [weakSelf.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:weakSelf.currentIndex inSection:0]];
                 [cell startLoadingPlayItemAnim:NO];
                 [cell setCoverHidden:YES];
             }
             
-            //获取视频播放总时间
-            float total = CMTimeGetSeconds([weakSelf.queuePlayer.currentItem duration]);
-            //重新播放视频
-            if(total == current) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf.queuePlayer.currentItem seekToTime:kCMTimeZero];
-                    [weakSelf.queuePlayer play];
-                });
-            }
+//            //获取视频播放总时间
+//            float total = CMTimeGetSeconds([weakSelf.queuePlayer.currentItem duration]);
+//            //重新播放视频
+//            if(total == current) {
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    [weakSelf.queuePlayer.currentItem seekToTime:kCMTimeZero];
+//                    [weakSelf.queuePlayer play];
+//                });
+//            }
             
         }
     }];
@@ -138,7 +148,7 @@
     }
     if (self.modelArray.count>0) {
         CTMediaModel *model = self.modelArray[indexPath.row];
-        [cell cellWithModel:model withPlayerItem:nil];
+        [cell cellWithModel:model];
         [cell setCoverHidden:NO];
         [cell startLoadingPlayItemAnim:YES];
         if (indexPath.row == self.currentIndex) {
@@ -222,7 +232,7 @@
                                         [self.queuePlayer.currentItem seekToTime:kCMTimeZero];
                                         [self.queuePlayer play];
                                         scrollView.panGestureRecognizer.enabled = YES;
-                                        NSLog(@"上一个播放器位置:%ld",[self.queuePlayer.items indexOfObject:self.items[self.currentIndex+2]]);
+                                        NSLog(@"上一个播放器位置:%lu",(unsigned long)[self.queuePlayer.items indexOfObject:self.items[self.currentIndex+2]]);
                                     });
                                 }];
         }
@@ -232,7 +242,7 @@
             //准备加入新数据
             [self loadMoreVideoWithPage:self.pageIndex + 1];
         }
-        NSLog(@"当前页面:%ld",self.currentIndex);
+        NSLog(@"当前页面:%ld",(long)self.currentIndex);
         
     });
 }
@@ -264,7 +274,7 @@
     NSMutableDictionary *dic =[NSMutableDictionary dictionary];
     [dic setObject:@"81871" forKey:@"uid"];
     [dic setObject:@"5" forKey:@"pageSize"];
-    [dic setObject:[NSString stringWithFormat:@"%ld",page] forKey:@"currPage"];
+    [dic setObject:[NSString stringWithFormat:@"%ld",(long)page] forKey:@"currPage"];
     [dic setObject:@"recommend" forKey:@"listName"];
     
     __weak __typeof(self) wself = self;
@@ -320,9 +330,10 @@
                     AVPlayerItem *item = [AVPlayerItem playerItemWithAsset:av];
                     [item addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew context:nil];
                     
-                    BOOL isCanAdd = [self.queuePlayer canInsertItem:item afterItem:self.items[self.items.count - 1]];
+                    BOOL isCanAdd = [self.queuePlayer canInsertItem:item afterItem:nil];
                     if (isCanAdd) {
-                        [self.queuePlayer insertItem:item afterItem:self.items[self.items.count - 1]];
+                        [self.queuePlayer insertItem:item afterItem:nil];
+                        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerItemDidReachEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:item];
                         [self.items addObject:item];
                         NSLog(@"添加了新的播放源:%@",mm.url);
                     }

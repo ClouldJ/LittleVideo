@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL isPlayerReady;
 @property (nonatomic, strong) OnPlayerReady    onPlayerReady;
 
--(void)cellWithModel:(CTMediaModel *)model withPlayerItem:(AVPlayerItem *)playerItem;
+-(void)cellWithModel:(CTMediaModel *)model;
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier withQueuePlayer:(AVQueuePlayer *)queuePlayer;
 
 - (void)startDownloadBackgroundTask;

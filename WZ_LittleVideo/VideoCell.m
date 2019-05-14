@@ -130,7 +130,7 @@
     self.imageViewAA.hidden = hidden;
 }
 
--(void)cellWithModel:(CTMediaModel *)model withPlayerItem:(nonnull AVPlayerItem *)playerItem{
+-(void)cellWithModel:(CTMediaModel *)model{
     //填充cell
     self.videoModel = model;
     [self.imageViewAA setImageWithURL:[NSURL URLWithString:self.videoModel.goodsLogo]];
