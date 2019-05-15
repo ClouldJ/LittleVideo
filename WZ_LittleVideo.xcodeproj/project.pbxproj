@@ -41,6 +41,8 @@
 		D071F3DF228013D900D90E36 /* WebPQueueManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D071F3DD228013D900D90E36 /* WebPQueueManager.m */; };
 		D099D3F9228951140047C048 /* WZBasePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D099D3F8228951140047C048 /* WZBasePlayer.m */; };
 		D099D3FF228951570047C048 /* WZQueuePlayerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D099D3FE228951570047C048 /* WZQueuePlayerManager.m */; };
+		D099D499228AC6990047C048 /* AVQueuePlayerPrevious.m in Sources */ = {isa = PBXBuildFile; fileRef = D099D497228AC6990047C048 /* AVQueuePlayerPrevious.m */; };
+		D099D49C228AC8C60047C048 /* WZQueuePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D099D49B228AC8C60047C048 /* WZQueuePlayer.m */; };
 		D0F8082F2280443F00CC13EE /* VideoDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F8082E2280443F00CC13EE /* VideoDownloadManager.m */; };
 		D0F8084A228123E400CC13EE /* WZPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F80849228123E400CC13EE /* WZPlayer.m */; };
 /* End PBXBuildFile section */
@@ -139,6 +141,10 @@
 		D099D3F8228951140047C048 /* WZBasePlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZBasePlayer.m; sourceTree = "<group>"; };
 		D099D3FD228951570047C048 /* WZQueuePlayerManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZQueuePlayerManager.h; sourceTree = "<group>"; };
 		D099D3FE228951570047C048 /* WZQueuePlayerManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZQueuePlayerManager.m; sourceTree = "<group>"; };
+		D099D497228AC6990047C048 /* AVQueuePlayerPrevious.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVQueuePlayerPrevious.m; sourceTree = "<group>"; };
+		D099D498228AC6990047C048 /* AVQueuePlayerPrevious.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVQueuePlayerPrevious.h; sourceTree = "<group>"; };
+		D099D49A228AC8C60047C048 /* WZQueuePlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZQueuePlayer.h; sourceTree = "<group>"; };
+		D099D49B228AC8C60047C048 /* WZQueuePlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WZQueuePlayer.m; sourceTree = "<group>"; };
 		D0F8082D2280443F00CC13EE /* VideoDownloadManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoDownloadManager.h; sourceTree = "<group>"; };
 		D0F8082E2280443F00CC13EE /* VideoDownloadManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoDownloadManager.m; sourceTree = "<group>"; };
 		D0F80848228123E400CC13EE /* WZPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WZPlayer.h; sourceTree = "<group>"; };
@@ -220,6 +226,8 @@
 				D071F28F227EB2FC00D90E36 /* AppDelegate.m */,
 				D071F291227EB2FC00D90E36 /* ViewController.h */,
 				D071F292227EB2FC00D90E36 /* ViewController.m */,
+				D099D498228AC6990047C048 /* AVQueuePlayerPrevious.h */,
+				D099D497228AC6990047C048 /* AVQueuePlayerPrevious.m */,
 				D071F33B227ED46E00D90E36 /* NSString+Extension.h */,
 				D071F33C227ED46F00D90E36 /* NSString+Extension.m */,
 				D071F33E227ED49300D90E36 /* NSNotification+Extension.h */,
@@ -238,6 +246,8 @@
 				D071F3D422800BAF00D90E36 /* UIImageView+WebCache.m */,
 				D071F347227ED6C900D90E36 /* VideoCell.h */,
 				D071F348227ED6C900D90E36 /* VideoCell.m */,
+				D099D49A228AC8C60047C048 /* WZQueuePlayer.h */,
+				D099D49B228AC8C60047C048 /* WZQueuePlayer.m */,
 				D0F8082D2280443F00CC13EE /* VideoDownloadManager.h */,
 				D0F8082E2280443F00CC13EE /* VideoDownloadManager.m */,
 				D0F80848228123E400CC13EE /* WZPlayer.h */,
@@ -581,6 +591,7 @@
 				D071F29E227EB2FE00D90E36 /* main.m in Sources */,
 				D071F36B227EDC8700D90E36 /* AVPlayerManager.m in Sources */,
 				D071F3D622800BAF00D90E36 /* UIImageView+WebCache.m in Sources */,
+				D099D49C228AC8C60047C048 /* WZQueuePlayer.m in Sources */,
 				D071F3B6227EDDF500D90E36 /* WebCacheHelpler.m in Sources */,
 				D071F2E7227EB58000D90E36 /* AFNetworkReachabilityManager.m in Sources */,
 				D071F2E6227EB58000D90E36 /* WZDataRequester.m in Sources */,
@@ -589,6 +600,7 @@
 				D071F36A227EDC8700D90E36 /* AVPlayerView.m in Sources */,
 				D0F8082F2280443F00CC13EE /* VideoDownloadManager.m in Sources */,
 				D071F340227ED49300D90E36 /* NSNotification+Extension.m in Sources */,
+				D099D499228AC6990047C048 /* AVQueuePlayerPrevious.m in Sources */,
 				D071F2E4227EB58000D90E36 /* Reachability.m in Sources */,
 				D071F290227EB2FC00D90E36 /* AppDelegate.m in Sources */,
 				D071F311227EC68500D90E36 /* CTMediaModel.m in Sources */,

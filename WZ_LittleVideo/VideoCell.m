@@ -35,7 +35,7 @@
     // Initialization code
 }
 
--(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier withQueuePlayer:(nonnull AVQueuePlayer *)queuePlayer{
+-(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier withQueuePlayer:(nonnull WZQueuePlayer *)queuePlayer{
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.backgroundColor = RGBA(0, 0, 0, 0.1f);
         self.queuePlayer = queuePlayer;
@@ -144,6 +144,7 @@
 -(void)initlizeSubViews {
     
     self.player = [AVPlayerLayer playerLayerWithPlayer:self.queuePlayer];
+    [self.player addObserver:self forKeyPath:@"readyForDisplay" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew context:nil];
     
     self.player.frame = CGRectMake(0, 0, SCREEN_W, SCREEN_H);
     [WZPlayer defaultPlayer].delegate = self;
@@ -156,6 +157,7 @@
     self.imageViewAA = [[UIImageView alloc] init];
     self.imageViewAA.contentMode = UIViewContentModeScaleAspectFit;
     self.imageViewAA.frame = CGRectMake(0, 0, SCREEN_W, SCREEN_H);
+    self.imageViewAA.backgroundColor = [UIColor blackColor];
     self.imageViewAA.hidden = NO;
     [self.container addSubview:self.imageViewAA];
     
@@ -181,6 +183,15 @@
         make.width.mas_equalTo(1.0f);
         make.height.mas_equalTo(0.5f);
     }];
+}
+
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    if([keyPath isEqualToString:@"readyForDisplay"]) {
+//        NSLog(@"this playitem readyForDisplay:%@",change);
+        if (self.delegate && [self.delegate respondsToSelector:@selector(playerDisplay:withCurrentCell:)]) {
+            [self.delegate playerDisplay:[change[@"new"] boolValue] withCurrentCell:self];
+        }
+    }
 }
 
 - (void)handleGesture:(UITapGestureRecognizer *)sender {

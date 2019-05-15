@@ -16,7 +16,9 @@
 #import "AVPlayerManager.h"
 #import "WZPlayer.h"
 
-@interface Presenter_PlayViewController () <AVAssetResourceLoaderDelegate>
+//#import "WZQueuePlayer.h"
+
+@interface Presenter_PlayViewController () <AVAssetResourceLoaderDelegate,VideoCellPlayerLayerDisplayDelegate>
 
 @property (nonatomic, strong) CTMediaModel *model;
 @property (nonatomic, assign) NSInteger currentIndex;
@@ -34,6 +36,13 @@
 @property (nonatomic, strong) NSMutableArray *items;
 @property (nonatomic, assign) NSInteger shouldAdvanceToNextItemIndex;
 @property (nonatomic, assign) BOOL isGestureUp;           //YES 向上；NO 向下
+@property (nonatomic, assign) BOOL isPlaying;
+
+
+/**
+ 自定义播放器
+ */
+@property (nonatomic, strong) WZQueuePlayer *wz_queuePlayer;             //自定义播放器
 @end
 
 @implementation Presenter_PlayViewController
@@ -47,6 +56,7 @@
     self.currentIndex = index;
     self.pageIndex = 1;         //待传入对应page信息
     self.tableView = tableView;
+    self.isPlaying = NO;
     
     self.items = [NSMutableArray array];
     
@@ -62,18 +72,27 @@
         
     }
     
-    self.queuePlayer = [AVQueuePlayer queuePlayerWithItems:self.items];
+//    self.queuePlayer = [AVQueuePlayer queuePlayerWithItems:self.items];
 //    self.queuePlayer.actionAtItemEnd = AVPlayerActionAtItemEndPause;
+    
+    self.wz_queuePlayer = [WZQueuePlayer queuePlayerWithItems:self.items];
+    self.wz_queuePlayer.wz_items = self.items;
+    self.wz_queuePlayer.currentDirection = WZQueuePlayerItemDirectionNext;
+    self.wz_queuePlayer.actionAtItemEnd = AVPlayerActionAtItemEndPause;
+//    [self.wz_queuePlayer addObserver:self forKeyPath:@"timeControlStatus" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew context:nil];
     [self addProgressObserver];
+    
     [tableView reloadData];
+    
+//    WZQueuePlayer *dd = [[WZQueuePlayer alloc] init];
 
 }
 
 - (void)playerItemDidReachEnd:(NSNotification *)notification {
     NSLog(@"播放完了  重启播放");
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.queuePlayer.currentItem seekToTime:kCMTimeZero];
-        [self.queuePlayer play];
+        [self.wz_queuePlayer.currentItem seekToTime:kCMTimeZero];
+        [self.wz_queuePlayer play];
     });
 
 }
@@ -81,37 +100,33 @@
 -(void)addProgressObserver{
     __weak __typeof(self) weakSelf = self;
     //AVPlayer添加周期性回调观察者，一秒调用一次block，用于更新视频播放进度
-    _timeObserver = [self.queuePlayer addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
-        if(self.queuePlayer.currentItem.status == AVPlayerItemStatusReadyToPlay) {
-            //获取当前播放时间
-            float current = CMTimeGetSeconds(time);
-            
-            if (current>0) {
-                //隐藏
-                VideoCell *cell = [weakSelf.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:weakSelf.currentIndex inSection:0]];
-                [cell startLoadingPlayItemAnim:NO];
-                [cell setCoverHidden:YES];
-            }
-            
-//            //获取视频播放总时间
-//            float total = CMTimeGetSeconds([weakSelf.queuePlayer.currentItem duration]);
-//            //重新播放视频
-//            if(total == current) {
-//                dispatch_async(dispatch_get_main_queue(), ^{
-//                    [weakSelf.queuePlayer.currentItem seekToTime:kCMTimeZero];
-//                    [weakSelf.queuePlayer play];
-//                });
-//            }
-            
-        }
+    
+    NSValue *timeValue = [NSValue valueWithCMTime:CMTimeMakeWithSeconds(1.0, 1.0)];
+    _timeObserver = [self.wz_queuePlayer addBoundaryTimeObserverForTimes:@[timeValue] queue:dispatch_get_main_queue() usingBlock:^{
+        NSLog(@"隐藏首诊图 cell Tag:%ld",self.currentIndex);
+
     }];
+//    _timeObserver = [self.wz_queuePlayer addPeriodicTimeObserverForInterval:CMTimeMake(10, 10) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+//        if(self.wz_queuePlayer.currentItem.status == AVPlayerItemStatusReadyToPlay) {
+//            //获取当前播放时间
+//            float current = CMTimeGetSeconds(time);
+//
+//            if (current>0) {
+//                //隐藏
+//                VideoCell *cell = [weakSelf.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:weakSelf.currentIndex inSection:0]];
+//                [cell startLoadingPlayItemAnim:NO];
+//                [cell setCoverHidden:YES];
+//            }
+//
+//        }
+//    }];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     VideoCell *cell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_currentIndex inSection:0]];
     if([keyPath isEqualToString:@"status"]) {
         
-        switch (self.queuePlayer.currentItem.status) {
+        switch (self.wz_queuePlayer.currentItem.status) {
             case AVPlayerItemStatusUnknown:
             {
                 [cell startLoadingPlayItemAnim:YES];
@@ -120,19 +135,27 @@
                 break;
             case AVPlayerItemStatusReadyToPlay:
             {
-                
+                if (!self.isPlaying) {
+                    self.isPlaying = YES;
+                    [self.wz_queuePlayer play];
+                }
             }
                 NSLog(@"播放器状态变化:ReadyToPlay");
                 break;
             case AVPlayerItemStatusFailed:
-                NSLog(@"播放器状态变化:Failed");
+                NSLog(@"播放器状态变化:Failed   playerQueue:%@",self.wz_queuePlayer.items);
                 break;
             default:
                 break;
         }
         
     }else {
-        return [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+        if ([keyPath isEqualToString:@"timeControlStatus"]) {
+            NSLog(@"监听 timeControlStatus :%@",change);
+        }else{
+            return [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+        }
+        
     }
 }
 
@@ -144,16 +167,15 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     VideoCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ddCell"];
     if (!cell) {
-        cell = [[VideoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ddCell" withQueuePlayer:self.queuePlayer];
+        cell = [[VideoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ddCell" withQueuePlayer:self.wz_queuePlayer];
     }
     if (self.modelArray.count>0) {
         CTMediaModel *model = self.modelArray[indexPath.row];
+        cell.tag = indexPath.row;
+        cell.delegate = self;
         [cell cellWithModel:model];
         [cell setCoverHidden:NO];
         [cell startLoadingPlayItemAnim:YES];
-        if (indexPath.row == self.currentIndex) {
-            [self.queuePlayer play];
-        }
         
     }
     return cell;
@@ -168,57 +190,7 @@
         
         if(translatedPoint.y < -50 && self.currentIndex < (self.modelArray.count - 1)) {
             self.currentIndex ++;   //向下滑动索引递增
-            
-            //标记滑动
-            if (self.isGestureUp) {
-                self.isGestureUp = NO;
-            }
-            
-            if ([self.queuePlayer.items indexOfObject:self.items[self.currentIndex]] == 1) {
-                //判断下一个播放源是否在播放器队列,如果在播放器队列则调用系统的播放下一曲方法
-                [UIView animateWithDuration:0.15
-                                      delay:0.0
-                                    options:UIViewAnimationOptionCurveEaseOut animations:^{
-                                        //UITableView滑动到指定cell
-                                        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.currentIndex inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-                                    } completion:^(BOOL finished) {
-                                        //UITableView可以响应其他滑动手势
-                                        [self.queuePlayer advanceToNextItem];
-                                        scrollView.panGestureRecognizer.enabled = YES;
-                                    }];
-                
-            }else{
-                //不在播放源，则replaceItem，并重启currentItem播放源
-                [UIView animateWithDuration:0.15
-                                      delay:0.0
-                                    options:UIViewAnimationOptionCurveEaseOut animations:^{
-                                        //UITableView滑动到指定cell
-                                        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.currentIndex inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-                                    } completion:^(BOOL finished) {
-                                        //UITableView可以响应其他滑动手势
-                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                            [self.queuePlayer pause];
-                                            [self.queuePlayer replaceCurrentItemWithPlayerItem:self.items[self.currentIndex]];
-                                            [self.queuePlayer.currentItem seekToTime:kCMTimeZero];
-                                            [self.queuePlayer play];
-                                            scrollView.panGestureRecognizer.enabled = YES;
-                                        });
-                                    }];
-            }
-            
-        }
-        if(translatedPoint.y > 50 && self.currentIndex >= 0) {
-            if (self.currentIndex == 0) {
-                return ;
-            }
-            
-            //判断滑动方向，并在第一次向上滑动的时候做当前item标记
-            if (!self.isGestureUp) {
-                self.isGestureUp = YES;
-                self.shouldAdvanceToNextItemIndex = self.currentIndex;
-            }
-            
-            self.currentIndex --;   //向上滑动索引递减
+            self.wz_queuePlayer.currentIndex++;
             [UIView animateWithDuration:0.15
                                   delay:0.0
                                 options:UIViewAnimationOptionCurveEaseOut animations:^{
@@ -226,15 +198,32 @@
                                     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.currentIndex inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
                                 } completion:^(BOOL finished) {
                                     //UITableView可以响应其他滑动手势
-                                    dispatch_async(dispatch_get_main_queue(), ^{
-                                        [self.queuePlayer pause];
-                                        [self.queuePlayer replaceCurrentItemWithPlayerItem:self.items[self.currentIndex]];
-                                        [self.queuePlayer.currentItem seekToTime:kCMTimeZero];
-                                        [self.queuePlayer play];
-                                        scrollView.panGestureRecognizer.enabled = YES;
-                                        NSLog(@"上一个播放器位置:%lu",(unsigned long)[self.queuePlayer.items indexOfObject:self.items[self.currentIndex+2]]);
-                                    });
+                                    [self.wz_queuePlayer setPlayerPlayDirection:WZQueuePlayerItemDirectionNext completionHandler:^{
+                                        [self.wz_queuePlayer advanceToNextItem];
+                                    }];
+                                    scrollView.panGestureRecognizer.enabled = YES;
                                 }];
+            
+        }
+        if(translatedPoint.y > 50 && self.currentIndex >= 0) {
+            if (self.currentIndex == 0) {
+                return ;
+            }
+            self.currentIndex --;   //向上滑动索引递减
+            self.wz_queuePlayer.currentIndex--;
+            [UIView animateWithDuration:0.15
+                                  delay:0.0
+                                options:UIViewAnimationOptionCurveEaseOut animations:^{
+                                    //UITableView滑动到指定cell
+                                    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.currentIndex inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+                                } completion:^(BOOL finished) {
+                                    //UITableView可以响应其他滑动手势
+                                    [self.wz_queuePlayer setPlayerPlayDirection:WZQueuePlayerItemDirectionPrevious completionHandler:^{
+                                        [self.wz_queuePlayer advanceToNextItem];
+                                    }];
+                                    scrollView.panGestureRecognizer.enabled = YES;
+                                }];
+            
         }
         
 
@@ -330,11 +319,11 @@
                     AVPlayerItem *item = [AVPlayerItem playerItemWithAsset:av];
                     [item addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew context:nil];
                     
-                    BOOL isCanAdd = [self.queuePlayer canInsertItem:item afterItem:nil];
+                    BOOL isCanAdd = [self.wz_queuePlayer canInsertItem:item afterItem:nil];
                     if (isCanAdd) {
-                        [self.queuePlayer insertItem:item afterItem:nil];
+                        [self.wz_queuePlayer insertItem:item afterItem:nil];
                         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerItemDidReachEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:item];
-                        [self.items addObject:item];
+                        [self.wz_queuePlayer.wz_items addObject:item];
                         NSLog(@"添加了新的播放源:%@",mm.url);
                     }
                     
@@ -365,6 +354,16 @@
         _dataSource = [NSMutableArray array];
     }
     return _dataSource;
+}
+
+#pragma mark VideoCellPlayerLayerDisplayDelegate
+-(void)playerDisplay:(BOOL)display withCurrentCell:(VideoCell *)cell {
+    if (cell.tag != self.currentIndex) {
+        [cell setCoverHidden:NO];
+//        [cell startLoadingPlayItemAnim:YES];
+    }else{
+//        NSLog(@"即将显示的cell tag: %ld        显示状态:%@   currentIndex:%ld",cell.tag,display?@"YES":@"NO",self.currentIndex);
+    }
 }
 
 @end

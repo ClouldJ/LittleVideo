@@ -7,20 +7,28 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WZQueuePlayer.h"
 @class AVPlayerView;
 @class CTMediaModel;
+@class VideoCell;
 
 typedef void (^OnPlayerReady)(void);
 NS_ASSUME_NONNULL_BEGIN
+@protocol VideoCellPlayerLayerDisplayDelegate <NSObject>
+
+-(void)playerDisplay:(BOOL)display withCurrentCell:(VideoCell *)cell;
+
+@end
 
 @interface VideoCell : UITableViewCell
 
 @property (nonatomic, strong) AVPlayerView     *playerView;
 @property (nonatomic, assign) BOOL isPlayerReady;
 @property (nonatomic, strong) OnPlayerReady    onPlayerReady;
+@property (nonatomic, weak) id<VideoCellPlayerLayerDisplayDelegate> delegate;
 
 -(void)cellWithModel:(CTMediaModel *)model;
--(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier withQueuePlayer:(AVQueuePlayer *)queuePlayer;
+-(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier withQueuePlayer:(WZQueuePlayer *)queuePlayer;
 
 - (void)startDownloadBackgroundTask;
 - (void)startDownloadHighPriorityTask;
